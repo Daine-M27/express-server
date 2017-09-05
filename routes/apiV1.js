@@ -7,14 +7,14 @@ var request = require('request');
 var GoogleApi_URL = 'https://www.googleapis.com/youtube/v3/search';
 var ApiKey = 'AIzaSyDuLlKSYLeDn53_eJqd2GtWOMmuTAMD0uw';
 
-var searchTerm = 'meditation'
+
 
 
 
 
 // search youtube for keywords
-router.get('/search', function(req, res, next) {
-
+router.get('/search/:searchTerm', function(req, res, next) {
+    var searchTerm = req.params.searchTerm;
    var requestURL =  GoogleApi_URL + '?'
        + 'part=snippet&key='
        + ApiKey
