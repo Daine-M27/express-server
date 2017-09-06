@@ -18,7 +18,7 @@ router.get('/search/:searchTerm', function(req, res, next) {
    var requestURL =  GoogleApi_URL + '?'
        + 'part=snippet&key='
        + ApiKey
-       + '&maxResults=25&type=video&videoDuration=long&q='
+       + '&maxResults=3&type=video&videoDuration=long&q='
        + searchTerm;
 
         //     part: 'snippet',
@@ -33,7 +33,11 @@ router.get('/search/:searchTerm', function(req, res, next) {
         if (error) {
             res.send(500);
         }
-        else {res.send(body)}
+        else {
+            var body = JSON.parse(body)
+            res.send(body.items[2].id.videoId);
+            console.log(body.items[2].id.videoId)
+        }
     });
 });
 
