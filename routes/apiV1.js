@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user.js');
-var request = require('request');
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user.js');
+const request = require('request');
 
 //youtube api data
-var GoogleApi_URL = 'https://www.googleapis.com/youtube/v3/search';
-var ApiKey = 'AIzaSyDuLlKSYLeDn53_eJqd2GtWOMmuTAMD0uw';
+const GoogleApi_URL = 'https://www.googleapis.com/youtube/v3/search';
+const ApiKey = 'AIzaSyDuLlKSYLeDn53_eJqd2GtWOMmuTAMD0uw';
 
 
 
@@ -14,18 +14,13 @@ var ApiKey = 'AIzaSyDuLlKSYLeDn53_eJqd2GtWOMmuTAMD0uw';
 
 // search youtube for keywords
 router.get('/search/:searchTerm', function(req, res, next) {
-    var searchTerm = req.params.searchTerm;
-   var requestURL =  GoogleApi_URL + '?'
+    console.log(req.params);
+    const searchTerm = req.params.searchTerm;
+    const requestURL =  GoogleApi_URL + '?'
        + 'part=snippet&key='
        + ApiKey
        + '&maxResults=3&type=video&videoDuration=long&q='
        + searchTerm;
-
-        //     part: 'snippet',
-        //     key: ApiKey,
-        //     q: 'searchTerm',
-        //     maxResults: 10,
-        //     videoDuration: 'long'
 
     console.log(requestURL);
 
@@ -34,12 +29,15 @@ router.get('/search/:searchTerm', function(req, res, next) {
             res.send(500);
         }
         else {
-            var body = JSON.parse(body)
-            res.send(body.items[2].id.videoId);
-            console.log(body.items[2].id.videoId)
+
+            let bodyText = JSON.parse(body);
+            console.log(bodyText);
+            res.send(bodyText);
+            console.log(bodyText.items[2].id.videoId)
         }
     });
 });
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -50,7 +48,7 @@ router.get('/', function(req, res, next) {
 //create user
 router.post('/users', function(req, res, next) {
 
-    var newUser = new User(req.body);
+    const newUser = new User(req.body);
     newUser.save(function (err, newUser) {
         if (err) {
             console.log(err);
