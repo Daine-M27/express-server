@@ -69,68 +69,81 @@ router.get('/users/:auth0id', function(req, res, next) {
             'Authorization': 'Bearer '+ accessToken
         }
     };
+    //res.json({name: 'value'});
 
-    function databaseUsers(uniqueId) {
-        console.log(uniqueId, 'unique Id from callback()');
 
-        User.findOne({ calmStatsId: uniqueId}, function(err, data){
-            console.log(data, 'data log');
-            if(data === null) {
-                const newUser = new User({ calmStatsId: uniqueId});
-                newUser.save(function (err, newUser) {
-                    if (err) {
-                        console.log(err);
-                        res.sendStatus(500)
-                    }
-                    else {
-                        console.log(newUser,'new user created')
-                    }
-                });
+    function databaseUsers(error, response, body) {
+        //res.sendStatus(200);
+        // if (!error && response.statusCode == 200) {
+        //     const info = JSON.parse(body);
+        //     const userId = info.sub;
+        //
+        //
+        //     User.findOne({ calmStatsId: userId}, function(err, data){
+        //         console.log(data, 'data log');
+        //         if(data === null) {
+        //             const newUser = new User({ calmStatsId: userId});
+        //             newUser.save(function (err, newUser) {
+        //                 if (err) {
+        //                     console.log(err);
+        //                     res.sendStatus(500)
+        //                 }
+        //                 else {
+        //                     res.send(newUser);
+        //                     console.log(newUser,'new user created');
+        //                 }
+        //             });
+        //
+        //         }
+        //         else if(data !== null){
+        //             //send back data to react state to update
+        //             // console.log('user already exists')
+        //             // calmStatsUserId = uniqueId;
+        //             // userIdCallback(uniqueId);
+        //             res.send(data)
+        //         }
+        //         else{
+        //             console.log(err)
+        //         }
+        //     })
+        //
+        // }
+        // else {
+        //     res.sendStatus(500)
+        // }
+        //console.log(uniqueId, 'unique Id from callback()');
 
-            }
-            else if(data !== null){
-                //send back data to react state to update
-                console.log('user already exists')
-                calmStatsUserId = uniqueId;
-            }
-            else{
-                console.log(err)
-            }
-        })
+
     }
 
 
-        //console.log(uniqueId, 'unique Id from callback()');
-        // const newUser = new User(uniqueId);
-        //
-        // newUser.save(function (err, newUser) {
-        //     if (err) {
-        //         console.log(err);
-        //         res.send(500)
-        //     }
-        //     else {
-        //         res.send(newUser)
-        //     }
-        // }
+    // function callback(error, response, body) {
+    //     if (!error && response.statusCode == 200) {
+    //         const info = JSON.parse(body);
+    //         const userId = info.sub;
+    //         databaseUsers(userId);
+    //         res.send(body)
+    //
+    //     }
+    //     else {
+    //         res.sendStatus(500)
+    //     }
+    // }
 
+    //request(options, function(databaseUsers);
 
-
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            const info = JSON.parse(body);
-            const userId = info.sub;
-            databaseUsers(userId);
-
+    request(options, function (error, response, body) {
+        if (error) {
+            res.send(500);
         }
         else {
-            res.sendStatus(500)
+            res.json({name: 'value'});
+            // loop through body to get additional info
+            //console.log(bodyText);
+            //
+            //console.log(bodyText.items[2].id.videoId)
         }
-    }
-
-    request(options, callback);
-
-
+    });
 
 });
 
