@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     calmStatsId: String,
+    runningSession: Boolean,
     sessions:[
         {
-        dateTime: String,
-        date: String,
         startTime: String,
         stopTime: String,
-        pauseTime: Number,
         videoId: String
         }
     ],

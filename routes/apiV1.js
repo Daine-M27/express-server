@@ -93,22 +93,62 @@ if(req.params.token){
 
 router.get('/sessions/start/:time/:token', function(req, res, next) {
      //console.log(req.params.time, 'time from client in milliseconds from 1/1/1970');
-     const date =  moment(req.params.time, "x").format('MMMM Do YYYY');
-     console.log(date, 'date', req.params.token, 'token id');
-    //User.findByIdAndUpdate()
 
-            // loop through body to get additional info
-            //console.log(bodyText);
-            //
-            //console.log(bodyText.items[2].id.videoId)
+     const date =  moment(req.params.time, "x");
+     console.log(date, 'date', req.params.token, 'token id');
+
+
+
+     User.findOneAndUpdate({"calmStatsId": req.params.token, "runningSession": false},
+         { $push: {"sessions": {"startTime":date} },
+         $set:{"runningSession":true}},
+         {new: true},
+         function(err, doc){
+         console.log(doc, 'session start running set to True, Null means session is running')
+     }
+     );
+
+
+     //console.log(res.body, 'router.get response');
+
+
 });
 
 
 
 
 
-// pause session
-router.get('/sessions/pause/:time');
+
+router.get('/sessions/stop/:time/:token/', function(req, res, next) {
+    //console.log(req.params.time, 'time from client in milliseconds from 1/1/1970');
+    console.log('stopping session');
+    const date =  moment(req.params.time, "x");
+
+    User.findOne({"calmStatsId": req.params.token, "runningSession": true},
+        function(err, doc){
+            const lastPosition = "sessions."+ (doc.sessions.length - 1) + ".stopTime :"+ date;
+            console.log(lastPosition);
+            User.findOneAndUpdate({"calmStatsId": req.params.token, "runningSession": true},
+                {$set :lastPosition, "runningSession": false},
+                //{$set:{ lastPosition: date, "runningSession": false }},
+                {new: true},
+                function(err, doc){
+                    console.log(doc, 'stopTime should be updated')
+                }
+
+            )
+
+        }
+
+    )
+
+
+
+
+    //console.log(res.body, 'router.get response');
+
+
+});
 
 
 
@@ -134,7 +174,7 @@ router.get('/users/:auth0id', function(req, res, next) {
             User.findOne({ calmStatsId: auth0Sub.sub}, function(err, data){
                 console.log(data, 'data log');
                 if(data === null) {
-                    const newUser = new User({ calmStatsId: auth0Sub.sub});
+                    const newUser = new User({ calmStatsId: auth0Sub.sub, runningSession: false});
                     newUser.save(function (err, newUser) {
                         if (err) {
                             console.log(err);
