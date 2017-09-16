@@ -2,34 +2,85 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     calmStatsId: String,
-    sessions:[{
+    sessions:[
+        {
         dateTime: String,
         date: String,
         startTime: String,
         stopTime: String,
         pauseTime: Number,
         videoId: String
-    }],
-    statistics: {
-        totalTime: String,
-        dailyAvgTime: String,
-        weeklyAvgTime: String,
-        monthlyAvgTime: String,
-        sessionAvgTime: String,
-        totalSessions: Number,
-        currentWeekSessions: Number,
-        currentMonthSessions: Number,
-        currentYearSessions: Number,
-        currentStreak: Number,
-        recordStreak: Number,
-        streakAvg: Number,
-        mostUsedVideo: [{
+        }
+    ],
+    currentStats:[
+        {
+            title: String,
+            value: Number
+        },
+        {
+            title: String,
+            value: Number
+        },
+        {
+            title: String,
+            value: Number
+        },
+        {
+            title: String,
+            value: Number
+        }
+    ],
+    averageStats:[
+        {
+            title: String,
+            value: String
+        },
+        {
+            title: String,
+            value: String
+        },
+        {
+            title: String,
+            value: String
+        },
+        {
+            title: String,
+            value: String
+        },
+
+    ],
+    recordStats:[
+        {
+            title: String,
+            value: String
+        },
+        {
+            title: String,
+            value: Number
+        },
+        {
+            title: String,
+            value: String
+        },
+        {
+            title: String,
+            value: String
+        },
+
+    ],
+
+    streaks:[
+        {
+            days: Number
+        }
+    ],
+    mostUsedVideo: [
+        {
             videoId: String,
             count: Number
-        }],
-        lastSession: String,
-
-    }
+        }
+    ],
+    lastSession: String
 
 });
 
