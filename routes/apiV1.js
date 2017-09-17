@@ -127,9 +127,12 @@ router.get('/sessions/stop/:time/:token/', function(req, res, next) {
     User.findOne({"calmStatsId": req.params.token, "runningSession": true},
         function(err, doc){
             const lastPosition = "sessions."+ (doc.sessions.length - 1) + ".stopTime :"+ date;
+            const obj = {};
+            obj["sessions."+ (doc.sessions.length - 1) + ".stopTime"] = date;
+            console.log(obj);
             console.log(lastPosition);
             User.findOneAndUpdate({"calmStatsId": req.params.token, "runningSession": true},
-                {$set :lastPosition, "runningSession": false},
+                {$set :obj, "runningSession": false},
                 //{$set:{ lastPosition: date, "runningSession": false }},
                 {new: true},
                 function(err, doc){
