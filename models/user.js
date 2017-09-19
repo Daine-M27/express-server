@@ -12,56 +12,57 @@ const userSchema = mongoose.Schema({
     ],
     currentStats:[
         {
-            title: String,
+            sessionsWeek: String,
             value: Number
         },
         {
-            title: String,
+            sessionsMonth: String,
             value: Number
         },
         {
-            title: String,
+            sessionsYear: String,
             value: Number
         },
         {
-            title: String,
+            currentStreak: String,
             value: Number
         }
     ],
     averageStats:[
         {
-            title: String,
+            weekAvg: String,
             value: String
         },
         {
-            title: String,
+            monthAvg: String,
             value: String
         },
         {
-            title: String,
+            sessionAvg: String,
             value: String
+
         },
         {
-            title: String,
+            streakAvg: String,
             value: String
         },
 
     ],
     recordStats:[
         {
-            title: String,
+            totalTime: String,
             value: String
         },
         {
-            title: String,
+            totalSessions: String,
             value: Number
         },
         {
-            title: String,
+            longestStreak: String,
             value: String
         },
         {
-            title: String,
+            longestSession: String,
             value: String
         },
 
