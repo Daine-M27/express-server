@@ -32,6 +32,7 @@ function averageSessionLength(doc) {
     const obj = {};
     obj["averageStats.2.sessionAvg"] = millisToMinutesAndSeconds(avgSession);
     obj["averageStats.2.value"] = millisToMinutesAndSeconds(avgSession);
+    console.log(obj, 'obj log')
 
     User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
         {$set :obj},
@@ -283,9 +284,9 @@ router.get('/sessions/stop/:time/:token/', function(req, res, next) {
                     const avgSession = {stat:averageSessionLength(doc)};
                     // console.log(avgSession, 'average session time length');
 
-                totalTime(doc);
-                totalSessions(doc);
-                currentStreak(doc);
+                // totalTime(doc);
+                // totalSessions(doc);
+                // currentStreak(doc);
 
 
                 }
