@@ -13,8 +13,132 @@ const ApiKey = 'AIzaSyDuLlKSYLeDn53_eJqd2GtWOMmuTAMD0uw';
 function millisToMinutesAndSeconds(millis) {
     const minutes = Math.floor(millis / 60000);
     const seconds = ((millis % 60000) / 1000).toFixed(0);
-    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+    return minutes + " min " + (seconds < 10 ? '0' : '') + seconds + " s";
 }
+
+function millisToMinutes(millis){
+    const minutes = Math.round((millis * 100) /100) / 60000;
+    return minutes;
+}
+
+
+//sets current streak if last session is from yesterdays date
+function currentStreak(doc) {
+    let lastSessionPosition = null;
+    let currentSessionPosition = null;
+
+    if(doc.sessions.length === 0 ) {
+        lastSessionPosition = doc.sessions.length ;
+        currentSessionPosition = doc.sessions.length;
+    }
+    else if(doc.sessions.length === 1){
+         lastSessionPosition = doc.sessions.length - 1;
+         currentSessionPosition = doc.sessions.length - 1;
+    }
+    else{
+         lastSessionPosition = doc.sessions.length - 2;
+         currentSessionPosition = doc.sessions.length - 1;
+    }
+
+
+    // remove .add after testing  include to advance a day for each test .add(1, 'd')
+    const dateCurrent = moment(doc.sessions[currentSessionPosition].stopTime, 'x').format('DDDD');
+
+    // adds one day to the last day and compares to current day
+    const dateCompare = moment(doc.sessions[lastSessionPosition].stopTime, 'x').add('d',1).format('DDDD');
+    // if its equal to current day increment streak counter
+    if(dateCurrent === dateCompare){
+        const streak = parseInt(doc.currentUserStats[0].dataValue) + 1;
+        //console.log(streak, 'streak')
+        User.findOneAndUpdate({"calmStatsId": doc.calmStatsId, "runningSession": false},
+            { $set: {"currentUserStats.0.dataValue": streak, "currentUserStats.0.title":"Current Daily Streak"}},
+
+            {new: true},
+
+            function(err, doc){
+                console.log('incremented currentStreak by 1');
+                averageSessionLength(doc)
+
+            }
+        );
+    }
+    // else if(dateCurrent ){
+    //     zeroStreak(doc);
+    //     // User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
+    //     //     {$set: {"currentUserStats.0.value": 0 }},
+    //     //     {new: true},
+    //     //     function (err, doc) {
+    //     //         console.log(doc, 'streaks updated');
+    //     //     }
+    //     //
+    //     // );
+    // }
+    // // if the streak is at 0 already
+    // else if(doc.currentUserStats[0].value === 0){
+    //     console.log('already 0')
+    // }
+    // not equal means the streak is over so the streak length is added to array
+    // and the counter is reset to 0
+    else{
+        // const streak = doc.currentUserStats[0].value;
+        //
+        // User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
+        //     {$push: {"streaks": {"days":streak} }},
+        //     {new: true},
+        //     function (err, doc) {
+        //     console.log(doc, 'streaks updated');
+        //         zeroStreak(doc)
+        //     }
+        //
+        // );
+        zeroStreak(doc);
+        console.log('zero streak');
+    }
+
+}
+
+//sets total sessions for user
+function totalSessions(doc) {
+    const obj = {};
+
+    obj["currentUserStats.1.dataValue"] = doc.sessions.length;
+    User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
+        {$set :obj, "currentUserStats.1.title":"Total Sessions"},
+        {new: true},
+        function(err, doc){
+            console.log(doc, 'total sessions set in user model')
+            totalTime(doc);
+        }
+
+    )
+}
+
+//calculates total time of all sessions and total sessions
+function totalTime(doc) {
+    console.log(doc, 'input doc');
+    let sessionLengths = [];
+    for (i = 0; i < doc.sessions.length; i++ ){
+        sessionLengths.push((doc.sessions[i].stopTime) - (doc.sessions[i].startTime));
+    }
+    //console.log(sessionLengths, 'session lengths');
+    let total = 0;
+    for (i = 0; i < sessionLengths.length; i++){
+        total += sessionLengths[i];
+    }
+    const totalTime = millisToMinutesAndSeconds(total);
+    console.log(totalTime, 'total time in mins and secs');
+    User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
+        {$set :{'currentUserStats.2.dataValue': totalTime,
+        'currentUserStats.2.title':'Total Meditation Time' }},
+        {new: true},
+        function(err, doc){
+            console.log(err, totalTime, 'total time set');
+            currentStreak(doc);
+        }
+
+    )
+}
+
 
 //calculates and sets average session statistic
 function averageSessionLength(doc) {
@@ -30,129 +154,37 @@ function averageSessionLength(doc) {
     const avgSession = Math.round(total / sessionLengths.length);
     console.log(avgSession, 'avg Session function log');
     const obj = {};
-    obj["averageStats.2.sessionAvg"] = millisToMinutesAndSeconds(avgSession);
-    obj["averageStats.2.value"] = millisToMinutesAndSeconds(avgSession);
-    console.log(obj, 'obj log')
-
+    obj["currentUserStats.3.dataValue"] = millisToMinutesAndSeconds(avgSession);
+    //console.log(obj, 'obj log')
+    console.log(obj);
     User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
-        {$set :obj},
+        {$set :obj, "currentUserStats.3.title":"Average Session Length"},
         {new: true},
         function(err, doc){
-          console.log('after avgSession time set in user model')
+            console.log(err, doc, 'after avgSession time set in user model')
         }
-
     )
 
 }
 
-//calculates total time of all sessions and total sessions
-function totalTime(doc) {
+function graphData() {
     let sessionLengths = [];
     for (i = 0; i < doc.sessions.length; i++ ){
         sessionLengths.push((doc.sessions[i].stopTime) - (doc.sessions[i].startTime));
     }
-    //console.log(sessionLengths, 'session lengths');
-    let total = 0;
-    for (i = 0; i < sessionLengths.length; i++){
-        total += sessionLengths[i];
-    }
 
-
-    const totalTime = millisToMinutesAndSeconds(total);
-    console.log(totalTime, 'total time in mins and secs');
-    const obj = {};
-    obj["recordStats.0.totalTime"] = totalTime;
-    obj["recordStats.0.value"] = totalTime;
-    obj["recordStats.1.totalSessions"] = sessionLengths.length;
-    User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
-        {$set :obj},
-        {new: true},
-        function(err, doc){
-            console.log('after avgSession time set in user model')
-        }
-
-    )
+    //millisToMinutes() for time in mins with two decimal places
+    //get date from moment.format MMM D = Apr 1
 }
-
-//sets total sessions for user
-function totalSessions(doc) {
-    const obj = {};
-
-    obj["recordStats.1.value"] = doc.sessions.length;
-    User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
-        {$set :obj},
-        {new: true},
-        function(err, doc){
-            console.log('total sessions set in user model')
-        }
-
-    )
-}
-//sets current streak if last session is from yesterdays date
-function currentStreak(doc) {
-    const lastSessionPosition = doc.sessions.length - 2;
-    const currentSessionPosition = doc.sessions.length - 1;
-
-    //const dateLast = moment(doc.sessions[lastSessionPosition].stopTime, 'x').format('DDDD');
-
-    // remove .add after testing
-    const dateCurrent = moment(doc.sessions[currentSessionPosition].stopTime, 'x').add(1, 'd').format('DDDD');
-
-    // adds one day to the last day and compares to current day
-    const dateCompare = moment(doc.sessions[lastSessionPosition].stopTime, 'x').add(3, 'd').format('DDDD');
-    // if its equal to current day increment streak counter
-    if(dateCurrent === dateCompare){
-        //console.log(dateLast, dateCurrent,dateCompare,'increment by 1');
-        User.findOneAndUpdate({"calmStatsId": doc.calmStatsId, "runningSession": false},
-            { $inc: {"currentStats.3.value": 1}},
-            {new: true},
-            function(err, doc){
-                console.log('incremented currentStreak by 1', doc.currentStats[3].value)
-            }
-        );
-    }
-    // if the streak is at 0 already
-    else if(doc.currentStats[3].value === 0){
-        console.log('already 0')
-    }
-    // not equal means the streak is over so the streak length is added to array
-    // and the counter is reset to 0
-    else{
-        const streak = doc.currentStats[3].value;
-
-        User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
-            {$push: {"streaks": {"days":streak} }},
-            {new: true},
-            function (err, doc) {
-            console.log(doc, 'streaks updated');
-                zeroStreak(doc)
-            }
-
-        );
-        console.log('updated streaks');
-    }
-
-
-
-
-    // User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
-    //     {$inc :{"currentStats.3.value": 1}},
-    //     {new: true},
-    //     function(err, doc){
-    //         console.log(doc, 'current streak set in user model')
-    //     }
-    //
-    // )
-}
-
 
 //zeros out the streak counter
 function zeroStreak(doc) {
     User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
-        {$set: {"currentStats.3.value":0}},
+        {$set: {"currentUserStats.0.dataValue":0, "currentUserStats.0.title":"Current Daily Streak"}},
         {new: true},
         function (err, doc) {
-            console.log(err,doc, 'set streak to 0')
+            console.log('set streak to 0');
+            averageSessionLength(doc);
         }
     )
 }
@@ -198,6 +230,7 @@ if(req.params.token){
         }
     };
 
+
     request(options, function (error, response, body) {
         if (error) {
             res.send(500);
@@ -209,7 +242,7 @@ if(req.params.token){
                 const auth0Sub = JSON.parse(body);
                 console.log(auth0Sub.sub, ' body.sub');
                 User.findOne({ calmStatsId: auth0Sub.sub}, function(err, data){
-                    console.log(data, 'data log');
+                    //console.log(data, 'data log');
                     if(!data) {
 
                         res.send({});
@@ -235,6 +268,26 @@ if(req.params.token){
 
 });
 
+
+router.get('/sessions/update-stats/:token', function (req, res, next) {
+
+    const token = req.params.token;
+    User.findOne({ calmStatsId: token}, function(err, data){
+        //console.log(data, 'data log');
+        if(!data) {
+
+            res.send({});
+
+        }
+        else if(data){
+            //sends back data to update state on client
+            res.send(data)
+        }
+        else{
+            console.log(err)
+        }
+    })
+})
 
 // create session from play button on client
 
@@ -275,37 +328,20 @@ router.get('/sessions/stop/:time/:token/', function(req, res, next) {
         function(err, doc){
             const obj = {};
             obj["sessions."+ (doc.sessions.length - 1) + ".stopTime"] = date;
-            //console.log(obj);
-            //console.log(lastPosition);
+
             User.findOneAndUpdate({"calmStatsId": req.params.token, "runningSession": true},
                 {$set :obj, "runningSession": false},
                 {new: true},
                 function(err, doc){
-                    const avgSession = {stat:averageSessionLength(doc)};
-                    // console.log(avgSession, 'average session time length');
-
-                // totalTime(doc);
-                // totalSessions(doc);
-                // currentStreak(doc);
-
-
+                totalSessions(doc);
+                res.send(doc);
                 }
-
             )
 
+
         }
-
     )
-
-
-
-
-    //console.log(res.body, 'router.get response');
-
-
 });
-
-
 
 
 //get unique id from auth0 then create user unless user exists.
@@ -327,9 +363,17 @@ router.get('/users/:auth0id', function(req, res, next) {
             const auth0Sub = JSON.parse(body);
             //console.log(auth0Sub.sub, ' body.sub');
             User.findOne({ calmStatsId: auth0Sub.sub}, function(err, data){
-                console.log(data, 'data log');
+                //console.log(data, 'data log');
                 if(data === null) {
-                    const newUser = new User({ calmStatsId: auth0Sub.sub, runningSession: false});
+                    const newUser = new User({
+                        calmStatsId: auth0Sub.sub,
+                        runningSession: false,
+                        currentUserStats: new Array(
+                            {"dataValue":0, "title":""},
+                            {"dataValue":0, "title":""},
+                            {"dataValue":'', "title":""},
+                            {"dataValue":'', "title":""}
+                            )});
                     newUser.save(function (err, newUser) {
                         if (err) {
                             console.log(err);

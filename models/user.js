@@ -10,24 +10,22 @@ const userSchema = mongoose.Schema({
         videoId: String
         }
     ],
-    currentStats:[
-        {
-            sessionsWeek: String,
-            value: Number
-        },
-        {
-            sessionsMonth: String,
-            value: Number
-        },
-        {
-            sessionsYear: String,
-            value: Number
-        },
-        {
-            currentStreak: String,
-            value: Number
-        }
+
+    graphData:[
+        {date:String, time:String}
+        ],
+
+    currentUserStats:[
+
+        {dataValue: String, title: String},
+
+        {dataValue: String, title: String},
+
+        {dataValue: String, title: String},
+
+        {dataValue: String, title: String}
     ],
+
     averageStats:[
         {
             weekAvg: String,
@@ -48,6 +46,9 @@ const userSchema = mongoose.Schema({
         },
 
     ],
+
+    chartStats:[],
+
     recordStats:[
         {
             totalTime: String,
@@ -87,3 +88,4 @@ const User = mongoose.model('User', userSchema);
 
 // console.log(User)
 module.exports = User;
+

@@ -14,7 +14,7 @@ const app = express();
 
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/userTest');
+mongoose.connect('mongodb://localhost/calmStatsData');
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
