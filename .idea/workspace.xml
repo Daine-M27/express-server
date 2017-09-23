@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e60d378-932f-4b25-aa5f-024c939d0c51" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.js" afterPath="$PROJECT_DIR$/models/user.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/apiV1.js" afterPath="$PROJECT_DIR$/routes/apiV1.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -79,8 +76,8 @@
           <file leaf-file-name="apiV1.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/routes/apiV1.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="352">
-                  <caret line="179" column="30" lean-forward="true" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
+                <state relative-caret-position="341">
+                  <caret line="357" column="16" lean-forward="false" selection-start-line="357" selection-start-column="16" selection-end-line="357" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -103,8 +100,8 @@
           <file leaf-file-name="user.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/models/user.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+                <state relative-caret-position="210">
+                  <caret line="14" column="33" lean-forward="false" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="33" />
                   <folding />
                 </state>
               </provider>
@@ -258,12 +255,12 @@
       <workItem from="1504620823416" duration="21977000" />
       <workItem from="1504867516161" duration="1819000" />
       <workItem from="1504983701946" duration="57354000" />
-      <workItem from="1505431079159" duration="82620000" />
+      <workItem from="1505431079159" duration="87291000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="163770000" />
+    <option name="totallyTimeSpent" value="168441000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -489,8 +486,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/apiV1.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="179" column="30" lean-forward="true" selection-start-line="179" selection-start-column="30" selection-end-line="179" selection-end-column="30" />
+        <state relative-caret-position="341">
+          <caret line="357" column="16" lean-forward="false" selection-start-line="357" selection-start-column="16" selection-end-line="357" selection-end-column="16" />
           <folding />
         </state>
       </provider>

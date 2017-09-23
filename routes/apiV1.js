@@ -161,20 +161,41 @@ function averageSessionLength(doc) {
         {$set :obj, "currentUserStats.3.title":"Average Session Length"},
         {new: true},
         function(err, doc){
+        graphData(doc);
             console.log(err, doc, 'after avgSession time set in user model')
         }
     )
 
 }
 
-function graphData() {
+function graphData(doc) {
+    function dateCalc(inputData) {
+       return moment(inputData, 'x').format("MMM D");
+    }
+    let graphData = [];
+    let dates = [];
     let sessionLengths = [];
+    let sessionLengthsMins = [];
     for (i = 0; i < doc.sessions.length; i++ ){
         sessionLengths.push((doc.sessions[i].stopTime) - (doc.sessions[i].startTime));
     }
-
-    //millisToMinutes() for time in mins with two decimal places
-    //get date from moment.format MMM D = Apr 1
+    for (i = 0; i < sessionLengths.length; i++){
+        sessionLengthsMins.push(millisToMinutes(sessionLengths[i]))
+    }
+    for (i = 0; i < sessionLengths.length; i++){
+        dates.push(dateCalc(doc.sessions[i].startTime));
+    }
+    for (i = 0; i < dates.length; i++){
+        const jsonDate = {date:dates[i], time:sessionLengthsMins[i]};
+        graphData.push(jsonDate);
+    }
+    User.findOneAndUpdate({"calmStatsId": doc.calmStatsId},
+        {$set :{"graphData":graphData}},
+        {new: true},
+        function(err, doc){
+            console.log(err, 'graphData')
+        }
+    )
 }
 
 //zeros out the streak counter
