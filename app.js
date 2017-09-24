@@ -8,8 +8,9 @@ const User = require('./models/user.js');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const apiV1 = require('./routes/apiV1');
+const morgan = require('morgan');
 
-
+// let server;
 const app = express();
 
 
@@ -64,4 +65,37 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+
+
+
+function runServer(){
+    const port = process.env.PORT || 3001;
+    return new Promise ((resolve, reject) => {
+        server = app.listen(port, () => {
+            console.log('Your app is listening on port ${port}');
+            resolve(server);
+        })
+            .on('error', err => {
+                reject(err)
+            })
+    })
+}
+
+function closeServer() {
+    return new Promise ((resolve, reject) => {
+        console.log('Closing server');
+        server.close(err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
+        })
+    })
+}
+
+if (require.main === module) {
+    runServer().catch(err => console.error(err));
+};
+
+module.exports = {app, runServer, closeServer};
