@@ -15,8 +15,14 @@ const app = express();
 
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/calmStatsData');
 
+if(process.env == 'production'){
+    mongoose.connect("mongodb://calmstatsdbu:OmegaRED27#@ds147044.mlab.com:47044/calm-stats-database")
+}
+else{
+    mongoose.connect('mongodb://localhost/calmStatsData');
+
+}
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
