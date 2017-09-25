@@ -1,6 +1,5 @@
 language: node_js
 node_js: node
-
 deploy: gentle-sea-29060
   provider: heroku
   api_key:
