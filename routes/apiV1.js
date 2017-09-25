@@ -290,25 +290,25 @@ if(req.params.token){
 });
 
 
-router.get('/sessions/update-stats/:token', function (req, res, next) {
-
-    const token = req.params.token;
-    User.findOne({ calmStatsId: token}, function(err, data){
-        //console.log(data, 'data log');
-        if(!data) {
-
-            res.send({});
-
-        }
-        else if(data){
-            //sends back data to update state on client
-            res.send(data)
-        }
-        else{
-            console.log(err)
-        }
-    })
-})
+// router.get('/sessions/update-stats/:token', function (req, res, next) {
+//
+//     const token = req.params.token;
+//     User.findOne({ calmStatsId: token}, function(err, data){
+//         //console.log(data, 'data log');
+//         if(!data) {
+//
+//             res.send({});
+//
+//         }
+//         else if(data){
+//             //sends back data to update state on client
+//             res.send(data)
+//         }
+//         else{
+//             console.log(err)
+//         }
+//     })
+// })
 
 // create session from play button on client
 
@@ -327,7 +327,10 @@ router.get('/sessions/start/:time/:token', function(req, res, next) {
          function(err, doc){
          //console.log('session start running set to True, Null means session is running')
      }
+
      );
+
+    res.sendStatus(200);
 
 
      //console.log(res.body, 'router.get response');

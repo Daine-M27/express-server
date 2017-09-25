@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app = require('../app').app;
+// console.log(app)
 const debug = require('debug')('calm-stats-server:server');
 const http = require('http');
 

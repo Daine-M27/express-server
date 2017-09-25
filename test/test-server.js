@@ -25,8 +25,43 @@ describe('Server', function () {
             });
     });
 
-    // it('start a user session', function () {
-    //     return chia.request(app)
-    //         .get('/api/v1/sessions/start')
-    // })
+    it('should return search results object', function () {
+        return chai.request(app)
+            .get('/api/v1/search/meditation')
+            .then(function (res) {
+                res.body.should.be.a('object');
+                res.should.have.status(200)
+            })
+    });
+
+    it('should return user stats', function () {
+        return chai.request(app)
+            .get('/api/v1/sessions/getstats/g3jpa4HUJ20tekz7')
+            .then(function (res) {
+                res.should.have.status(200);
+                res.should.be.json;
+            })
+    });
+
+    it('start a session', function () {
+
+        return chai.request(app)
+            .get('/api/v1/sessions/start/1506126966545/google-oauth2|102106501839629042238')
+            .then(function (res) {
+                res.should.have.status(200);
+
+            })
+    });
+
+    it('should return user stats', function () {
+
+        return chai.request(app)
+            .get('/api/v1/sessions/stop/1506127151839/google-oauth2|102106501839629042238')
+            .then(function (res) {
+                res.should.have.status(200);
+                res.should.be.json;
+
+            })
+    });
+
 });
