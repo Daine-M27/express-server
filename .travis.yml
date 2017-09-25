@@ -1,5 +1,7 @@
 language: node_js
 node_js: node
+services:
+     - mongodb
 deploy: gentle-sea-29060
   provider: heroku
   api_key:

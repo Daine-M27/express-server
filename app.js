@@ -16,7 +16,7 @@ const app = express();
 
 const mongoose = require('mongoose');
 
-if(process.env == 'production'){
+if(process.env === 'production'){
     mongoose.connect("mongodb://calmstatsdbu:OmegaRED27#@ds147044.mlab.com:47044/calm-stats-database")
 }
 else{
