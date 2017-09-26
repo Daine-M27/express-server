@@ -25,6 +25,7 @@ const mongoose = require('mongoose');
 
 mongoose.connect("mongodb://calmstatsdbu:OmegaRED27#@ds147044.mlab.com:47044/calm-stats-database");
 
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
