@@ -7,7 +7,7 @@
         "modules": false
       }
     ],
-    "react",
+    "node6",
     "stage-0"
   ],
   "env": {
@@ -17,7 +17,7 @@
       ]
     },
     "test": {
-      "presets": ["es2015", "react", "stage-0"]
+      "presets": ["es2015", "node6", "stage-0"]
     }
   }
 }
