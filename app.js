@@ -9,7 +9,7 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const apiV1 = require('./routes/apiV1');
 const morgan = require('morgan');
-
+const Promise = require('es6-promise').Promise;
 // let server;
 const app = express();
 
