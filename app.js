@@ -73,7 +73,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-let server;
+var server;
 
 
 function runServer(){
