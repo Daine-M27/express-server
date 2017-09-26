@@ -18,8 +18,9 @@ describe('Server', function () {
 
     it('return user data', function(){
         return chai.request(app)
-            .get('/api/v1/users/g3jpa4HUJ20tekz7')
+            .get('/api/v1/users/TrV49oMkmg7iO43J')
             .then(function(res){
+                console.log(res);
                 res.should.have.status(200);
                 res.should.be.json;
             });
@@ -36,7 +37,7 @@ describe('Server', function () {
 
     it('should return user stats', function () {
         return chai.request(app)
-            .get('/api/v1/sessions/getstats/g3jpa4HUJ20tekz7')
+            .get('/api/v1/sessions/getstats/TrV49oMkmg7iO43J')
             .then(function (res) {
                 res.should.have.status(200);
                 res.should.be.json;
