@@ -1,23 +1,3 @@
 {
-  "plugins": ["syntax-dynamic-import", "transform-runtime"],
-  "presets": [
-    [
-      "es2015",
-      {
-        "modules": false
-      }
-    ],
-    "node6",
-    "stage-0"
-  ],
-  "env": {
-    "start": {
-      "presets": [
-        "react-hmre"
-      ]
-    },
-    "test": {
-      "presets": ["es2015", "node6", "stage-0"]
-    }
-  }
+  "presets": ["es2015"]
 }
