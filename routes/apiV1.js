@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/user.js');
 const request = require('request');
 const moment = require('moment');
-
+const cors = require('cors');
 //youtube api data
 const GoogleApi_URL = 'https://www.googleapis.com/youtube/v3/search';
 const ApiKey = 'AIzaSyDuLlKSYLeDn53_eJqd2GtWOMmuTAMD0uw';
@@ -214,7 +214,7 @@ function zeroStreak(doc) {
 
 
 // search youtube for keywords
-router.get('/search/:searchTerm', function(req, res, next) {
+router.get('/search/:searchTerm', cors(), function(req, res, next) {
     //console.log(req.params);
     const searchTerm = req.params.searchTerm;
     const requestURL =  GoogleApi_URL + '?'
@@ -239,7 +239,7 @@ router.get('/search/:searchTerm', function(req, res, next) {
 
 //returns all user stats from database
 
-router.get('/sessions/getstats/:token', function(req, res, next) {
+router.get('/sessions/getstats/:token', cors(), function(req, res, next) {
     console.log(req.params.token, 'getstats token get stats');
 if(req.params.token){
 
@@ -292,7 +292,7 @@ if(req.params.token){
 
 // create session from play button on client
 
-router.get('/sessions/start/:time/:token', function(req, res, next) {
+router.get('/sessions/start/:time/:token', cors(), function(req, res, next) {
      //console.log(req.params.time, 'time from client in milliseconds from 1/1/1970');
 
      const date =  moment(req.params.time, "x");
@@ -319,7 +319,7 @@ router.get('/sessions/start/:time/:token', function(req, res, next) {
 
 
 
-router.get('/sessions/stop/:time/:token/', function(req, res, next) {
+router.get('/sessions/stop/:time/:token/', cors(), function(req, res, next) {
     //console.log(req.params.time, 'time from client in milliseconds from 1/1/1970');
     console.log('stopping session');
     const date =  moment(req.params.time, "x");
@@ -345,7 +345,7 @@ router.get('/sessions/stop/:time/:token/', function(req, res, next) {
 
 
 //get unique id from auth0 then create user unless user exists.
-router.get('/users/:auth0id', function(req, res, next) {
+router.get('/users/:auth0id', cors(), function(req, res, next) {
     const accessToken = req.params.auth0id;
     console.log(accessToken, 'get auth0 access token');
     const options = {
