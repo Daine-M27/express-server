@@ -388,7 +388,7 @@ router.get('/users/:auth0id', function(req, res, next) {
                 }
                 else if(data !== null){
                     //send back data to react state to update
-                     console.log('user already exists')
+                     console.log('user already exists');
                     // calmStatsUserId = uniqueId;
                     // userIdCallback(uniqueId);
                     res.send(data)
