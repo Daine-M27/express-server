@@ -361,9 +361,9 @@ router.get('/users/:auth0id', function(req, res, next) {
         }
         else {
             const auth0Sub = JSON.parse(body);
-            //console.log(auth0Sub.sub, ' body.sub');
+            console.log(auth0Sub.sub, ' body.sub');
             User.findOne({ calmStatsId: auth0Sub.sub}, function(err, data){
-                //console.log(data, 'data log');
+                console.log(data, 'data log');
                 if(data === null) {
                     const newUser = new User({
                         calmStatsId: auth0Sub.sub,
