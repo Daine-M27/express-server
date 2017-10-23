@@ -14,7 +14,7 @@
 
 <h2>Wireframes</h2>
 <p>Wireframes were created for each page.  A simple informative layout was chosen to keep a clean look and feel.</p>
-<p>A live version of the wireframes can be see at  <span><a href="https://daine-m27.github.io/finalCapstone">Calm Stats Wireframes</a></span>
+<p>A live version of the wireframes can be see at  <span><a href="https://daine-m27.github.io/finalCapstone">Calm Stats Wireframes</a></span></p>
 <img src="public/wireframes.png">
 
 <h2>Technology</h2>
