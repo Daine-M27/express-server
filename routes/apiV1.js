@@ -306,8 +306,7 @@ router.get('/sessions/start/:time/:token', function(req, res, next) {
          {new: true},
          function(err, doc){
          //console.log('session start running set to True, Null means session is running')
-     }
-
+        }
      );
 
     res.sendStatus(200);
