@@ -1,8 +1,6 @@
 <h1>Calm Stats</h1>
-<p> CalmStats is a responsive full-stack app that allows users to chart the amount of time they spend meditation each day.</p>
-<img src="https://calmstats.com/homepage.png">
-
-
+<p> CalmStats is a responsive full-stack web app that allows users to chart the amount of time they spend in meditation each day.</p>
+<img src="https://calmstats.com/homepage1.png">
 
 <h2>Introduction</h2>
 <p>The main focus of Calm Stats is to promote the use of meditation to improve daily life and medical conditions. Meditation is a proven skill that anyone can use to improve their life.</p>
@@ -22,16 +20,16 @@
 <ul>
   <li>React</li>
   <li>HTML</li>
-  <li>JavaScript</li>
-  <li>Bootstrap</li>
-  <li>FontAwesome for icons</li>
   <li>CSS</li>
-  <li>ChartJS</li>
-  <li>Auth0</li>
+  <li>JavaScript</li>
+  <li><a href="https://getbootstrap.com">Bootstrap</a></li>
+  <li><a href="https://fontawesome.io">FontAwesome</a> for icons</li>
+  <li><a href="https://chartjs.org">ChartJS</a></li>
+  <li><a href="https://auth0.com">Auth0</a> for user authentication</li>
   <li>Continuous integration and deployment with <a href="https://travis-ci.org">TravisCI</a></li>
   <li>Hosted at <a href="https://netlify.com">Netlify</a></li>
   <li>Testing with <a href="https://github.com/airbnb/enzyme">Enzyme</a></li>
-
+  <li>SSL Certificate through <a href="https://letsencrypt.org">Letsencrypt</a></li>
 </ul>
 <h3>Back End</h3>
 <ul>
@@ -40,12 +38,11 @@
   <li>Testing with <a href="https://mochajs.org/">Mocha</a> + <a href="http://chaijs.com/">Chai</a></li>
   <li>Continuous integration and deployment with <a href="https://travis-ci.org/">Travis CI</a></li>
   <li>Continuous integration and deployment with <a href="https://heroku.com">Heroku</a></li>
-  <li>
 </ul>
 <h3>Database</h3>
 <ul>
     <li>MongoDB separately hosted at <a href="https://www.mlab.com">MLab</a></li>
-</ul
+</ul>
 <h3>Responsive</h3>
 <ul>
   <li>The app was built to be responsive and adjusts for any size screen.</li>
